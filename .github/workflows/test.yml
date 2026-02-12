@@ -7,6 +7,12 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
       - name: Setup Hugo
         run: |
           HUGO_VERSION="0.155.2"
@@ -15,5 +21,8 @@ jobs:
           wget -q $URL -O hugo.tar.gz
           tar -zxvf hugo.tar.gz
           sudo mv hugo /usr/local/bin/
+          sudo chmod +x /usr/local/bin/hugo
           echo "安装完成"
           hugo version
+      - name: Build Site
+        run: hugo --minify
